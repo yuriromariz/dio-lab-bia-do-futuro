@@ -3,9 +3,13 @@ import streamlit as st
 from dotenv import load_dotenv
 import google.generativeai as genai
 
+
 # Carrega variáveis de ambiente
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GEMINI_API_KEY")
+
+genai.configure(api_key=GOOGLE_API_KEY)
+
 
 # Configuração da página Streamlit
 st.set_page_config(
@@ -222,7 +226,7 @@ def main():
             except Exception as e:
                 st.error(f"Erro: {e}")
         
-        st.rerun()
+        #st.rerun()
 
 if __name__ == "__main__":
     main()
