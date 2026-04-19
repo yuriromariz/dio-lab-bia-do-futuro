@@ -1,0 +1,58 @@
+# BASE DE CONHECIMENTO - SARA
+# Versão: 1.2
+# Data: 18/04/2026
+# Fonte Primária: B3 + Endpoints do Banco Central
+
+1. INDICADOR: Taxa Selic (Meta)
+- Valor atual: 14,75% a.a. (a partir de 19/03/2026)
+- Fonte: Banco Central (SGS Série 432)
+- Nota: Entre 01/01/2026 e 18/03/2026, a Selic estava em 15,00% a.a.
+- Link: https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json
+
+2. INDICADOR: Taxa DI (CDI)
+- Valor: 14,65% a.a.
+- Fonte: Banco Central (SGS Série 4389)
+- Nota: A Taxa DI é atualizada diariamente, esse valor é referente ao dia 18/04/2026.
+- Link: https://api.bcb.gov.br/dados/serie/bcdata.sgs.4389/dados?formato=json
+
+3. PRODUTO: Tesouro Selic 2031
+- Rentabilidade: Selic + 0,0855% a.a. (consulta em 18/04/2026)
+- Liquidez: D+1
+- Fonte: B3 (via Tesouro Direto)
+- Link: https://www.tesourodireto.com.br/titulos/precos-e-taxas.htm
+
+4. PRODUTO: CDB Pós-fixado
+- Rentabilidade: 100% do CDI (piso típico; alguns oferecem percentuais maiores)
+- Garantia: FGC até R$ 250 mil por CPF
+- Tributação: Tabela Regressiva IR
+- Fonte: B3
+- Link: https://www.b3.com.br/pt_br/
+
+5. PRODUTO: LCI/LCA
+- Rentabilidade: 90% do CDI (piso típico; alguns oferecem percentuais maiores)
+- Isenção: IR para Pessoa Física
+- Carência mínima: 90 dias (mas verificar liquidez no título específico)
+- Garantia: FGC até R$ 250 mil
+- Fonte: B3
+- Link LCI: https://www.b3.com.br/pt_br/produtos-e-servicos/registro/renda-fixa/lci.htm
+- Link LCA: https://www.b3.com.br/pt_br/produtos-e-servicos/registro/renda-fixa/lca.htm
+
+6. PRODUTO: Caderneta de Poupança
+- Rentabilidade: 0,5% a.m. + TR (vigente com Selic acima de 8,5% a.a.)
+- Isenção: IR
+- Garantia: FGC
+- Nota: A TR (Taxa Referencial) está atualmente próxima de 0%.
+- Fonte: Banco Central do Brasil
+- Link: https://www.bcb.gov.br/estatisticas/remuneracaodepositospoupanca
+
+# REGRA DE IMPOSTO DE RENDA (Tabela Regressiva)
+- Até 180 dias: 22,5% | 181-360 dias: 20% | 361-720 dias: 17,5% | Acima 720 dias: 15%
+- Fonte: Receita Federal (IN 1.585/2015)
+- Link: https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas/2026
+
+# ISENÇÕES
+- LCI/LCA: Isento de IR para Pessoa Física
+- Poupança: Isenta de IR
+
+# FORA DO ESCOPO
+- Ações, Criptoativos, ETFs de renda variável, Fundos Imobiliários (FIIs), Day trade, Opções e derivativos, Renda variável de qualquer natureza.
