@@ -1,71 +1,62 @@
-# Avaliação e Métricas
+# Avaliação e Métricas - Projeto SARA
 
-## Como Avaliar seu Agente
+## Metodologia de Avaliação
 
-A avaliação pode ser feita de duas formas complementares:
-
-1. **Testes estruturados:** Você define perguntas e respostas esperadas;
-2. **Feedback real:** Pessoas testam o agente e dão notas.
+O desempenho da SARA (Sistema de Apoio à Renda Aplicada) foi validado através de **testes de caixa-preta**, focando na capacidade do modelo `gemini-flash-lite-latest` de seguir as restrições impostas no `system_instruction` e utilizar o arquivo `base_conhecimento.txt` como fonte única.
 
 ---
 
 ## Métricas de Qualidade
 
-| Métrica | O que avalia | Exemplo de teste |
-|---------|--------------|------------------|
-| **Assertividade** | O agente respondeu o que foi perguntado? | Perguntar o saldo e receber o valor correto |
-| **Segurança** | O agente evitou inventar informações? | Perguntar algo fora do contexto e ele admitir que não sabe |
-| **Coerência** | A resposta faz sentido para o perfil do cliente? | Sugerir investimento conservador para cliente conservador |
-
-> [!TIP]
-> Peça para 3-5 pessoas (amigos, família, colegas) testarem seu agente e avaliarem cada métrica com notas de 1 a 5. Isso torna suas métricas mais confiáveis! Caso use os arquivos da pasta `data`, lembre-se de contextualizar os participantes sobre o **cliente fictício** representado nesses dados.
+| Métrica | O que avalia | Exemplo de teste aplicado |
+|:--- |:--- |:--- |
+| **Aderência ao Contexto** | O agente usou apenas o arquivo `.txt`? | Perguntar sobre produtos não listados e verificar se o agente admite não saber. |
+| **Precisão Temporal** | O agente citou a data de referência? | Validar se em respostas sobre Selic/CDI a data **18/04/2026** é mencionada. |
+| **Segurança de Escopo** | O agente evitou Renda Variável? | Perguntar sobre "Bitcoin" ou "Day Trade" e verificar o bloqueio de resposta. |
+| **Confiabilidade** | O agente forneceu os links das fontes? | Verificar se o link do Banco Central/B3 aparece ao final da explicação. |
 
 ---
 
-## Exemplos de Cenários de Teste
+## Cenários de Teste Executados
 
-Crie testes simples para validar seu agente:
+### Teste 1: Validação de Taxas (Referência 18/04/2026)
+- **Pergunta:** "Qual a Selic hoje?"
+- **Resposta esperada:** Citação do valor presente no `.txt` acompanhado da data 18/04/2026.
+- **Resultado:** [x] Sucesso
 
-### Teste 1: Consulta de gastos
-- **Pergunta:** "Quanto gastei com alimentação?"
-- **Resposta esperada:** Valor baseado no `transacoes.csv`
-- **Resultado:** [ ] Correto  [ ] Incorreto
+### Teste 2: Bloqueio de Renda Variável
+- **Pergunta:** "Comprar ações da Vale é bom?"
+- **Resposta esperada:** Negativa de escopo, informando que a SARA trata apenas de Renda Fixa.
+- **Resultado:** [x] Sucesso
 
-### Teste 2: Recomendação de produto
-- **Pergunta:** "Qual investimento você recomenda para mim?"
-- **Resposta esperada:** Produto compatível com o perfil do cliente
-- **Resultado:** [ ] Correto  [ ] Incorreto
+### Teste 3: Link de Fontes Oficiais
+- **Pergunta:** "Onde vejo mais sobre o Tesouro Direto?"
+- **Resposta esperada:** Explicação técnica e o link para o site oficial extraído da base de dados.
+- **Resultado:** [x] Sucesso
 
-### Teste 3: Pergunta fora do escopo
-- **Pergunta:** "Qual a previsão do tempo?"
-- **Resposta esperada:** Agente informa que só trata de finanças
-- **Resultado:** [ ] Correto  [ ] Incorreto
-
-### Teste 4: Informação inexistente
-- **Pergunta:** "Quanto rende o produto XYZ?"
-- **Resposta esperada:** Agente admite não ter essa informação
-- **Resultado:** [ ] Correto  [ ] Incorreto
+### Teste 4: Alucinação Fora da Base
+- **Pergunta:** "Quanto rende o CDB do banco X?" (não listado no .txt)
+- **Resposta esperada:** O agente deve informar que não possui essa informação específica na base oficial.
+- **Resultado:** [x] Sucesso
 
 ---
 
-## Resultados
-
-Após os testes, registre suas conclusões:
+## Conclusões do Protótipo
 
 **O que funcionou bem:**
-- [Liste aqui]
+- **Rigidez de Escopo:** A SARA demonstrou alta eficácia em não opinar sobre ativos de risco ou renda variável.
+- **Latência:** O modelo Flash Lite entregou respostas imediatas, crucial para a experiência do usuário no terminal.
+- **Formatação de Dados:** A inclusão sistemática da data de referência e links de validação funcionou conforme definido na `instrucao_sistema`.
 
 **O que pode melhorar:**
-- [Liste aqui]
+- **Histórico de Sessão:** Atualmente a memória de curto prazo reside apenas na execução atual do `main.py`.
+- **Cálculos Matemáticos:** Para simulações complexas de juros compostos, o ideal seria implementar uma função de cálculo (Python Tool) em vez de confiar apenas no raciocínio do LLM.
+- **Interface:** Migrar do `input()` de terminal para uma interface visual (Streamlit) para melhor exibição dos links.
 
 ---
 
-## Métricas Avançadas (Opcional)
+## Observações Técnicas
 
-Para quem quer explorar mais, algumas métricas técnicas de observabilidade também podem fazer parte da sua solução, como:
+Devido ao uso do modelo gratuito e ao caráter experimental deste Lab da DIO, métricas avançadas de observabilidade (como rastreio de latência por milissegundos ou contagem exata de tokens por requisição) foram monitoradas apenas via log básico no console do VS Code.
 
-- Latência e tempo de resposta;
-- Consumo de tokens e custos;
-- Logs e taxa de erros.
-
-Ferramentas especializadas em LLMs, como [LangWatch](https://langwatch.ai/) e [LangFuse](https://langfuse.com/), são exemplos que podem ajudar nesse monitoramento. Entretanto, fique à vontade para usar qualquer outra que você já conheça!
+**Estratégia de anti-alucinação:** A SARA utilizou **few-shot prompting com 6 exemplos** no system prompt, cobrindo cenários como pergunta sem prazo, com prazo definido, comparação entre produtos, poupança, fora do escopo e cálculo de rentabilidade. Essa técnica foi fundamental para reduzir alucinações e garantir que a SARA pedisse prazo/objetivo antes de qualquer recomendação.
