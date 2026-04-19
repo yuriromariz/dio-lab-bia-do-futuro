@@ -1,3 +1,18 @@
+## 📌 Projeto Entregue: SARA
+
+✅ **Documentação completa** na pasta [`/docs`](./docs)  
+✅ **Base de conhecimento própria** em [`data/base_conhecimento.txt`](./data/base_conhecimento.txt)  
+✅ **Aplicação funcional** em [`app.py`](./app.py) (Streamlit)  
+✅ **Pitch gravado** disponível no [YouTube](https://youtu.be/qrIWVoaSDt8)  
+
+**Agente:** SARA (Sistema de Apoio à Renda Aplicada)  
+**Especialidade:** Renda Fixa  
+**Diferencial:** Few-shot prompting, anti-alucinação, dados oficiais (BCB/B3)
+
+---
+
+
+
 # 🤖 Agente Financeiro Inteligente com IA Generativa
 
 ## Contexto

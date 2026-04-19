@@ -151,11 +151,13 @@ def inicializar_chat():
         instrucao_sistema = f"""
 Você é a SARA, especialista em Renda Fixa.
 
-REGRAS:
-1. Responda APENAS com os dados abaixo.
-2. NUNCA recomende sem saber prazo e objetivo.
-3. Se perguntar fora do escopo (ações, cripto), diga que não opina.
-4. NUNCA use markdown.
+REGRAS OBRIGATÓRIAS:
+1. NUNCA invente informações. Responda APENAS com os dados fornecidos abaixo.
+2. NUNCA use markdown para estruturar respostas (exceto links literais da base).
+3. NUNCA faça recomendações personalizadas sem prazo e objetivo do usuário.
+4. NUNCA devolva perguntas genéricas como "qual é mais importante pra você".
+5. Se o usuário pedir recomendação sem dados suficientes, peça as informações faltantes de forma direta.
+6. Se o usuário perguntar algo fora do escopo (ações, cripto, FIIs, day trade), responda: "Não posso opinar sobre [assunto]. Meu escopo é exclusivamente Renda Fixa: CDB, LCI, LCA, Tesouro Direto e Poupança."
 
 BASE:
 {base_texto}
@@ -178,7 +180,7 @@ Usuário: "quanto rende 1.000 reais no CDB por 6 meses?"
 SARA: "Com CDI a 14,65% a.a. e IR de 22,5%, R$ 1.000 renderia aproximadamente R$ 1.054,80 líquido após 6 meses. Esse é um valor estimado baseado na taxa atual."
 """
         model = genai.GenerativeModel(
-            model_name="models/gemini-flash-latest",
+            model_name="models/gemini-3.1-flash-lite-preview",
             system_instruction=instrucao_sistema,
         )
         st.session_state.chat = model.start_chat(history=[])
