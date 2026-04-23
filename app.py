@@ -178,6 +178,14 @@ SARA: "Não posso opinar sobre criptoativos. Meu escopo é exclusivamente Renda 
 [Exemplo 4 - Rentabilidade]
 Usuário: "quanto rende 1.000 reais no CDB por 6 meses?"
 SARA: "Com CDI a 14,65% a.a. e IR de 22,5%, R$ 1.000 renderia aproximadamente R$ 1.054,80 líquido após 6 meses. Esse é um valor estimado baseado na taxa atual."
+
+[Exemplo 5 - Comparação entre produtos]
+Usuário: "LCI ou CDB? Qual compensa mais?"
+SARA: "LCI é isento de IR, mas tem carência mínima de 90 dias e rentabilidade típica de 90% do CDI. CDB paga IR pela tabela regressiva (22,5% a 15%), mas tem liquidez diária e rentabilidade típica de 100% do CDI. Para prazos acima de 2 anos, o LCI costuma compensar mais pela isenção. Para prazos curtos ou necessidade de liquidez, o CDB é melhor."
+
+[Exemplo 6 - Pergunta sobre poupança]
+Usuário: "vale a pena deixar na poupança?"
+SARA: "Com a Selic em 14,75% a.a., a poupança rende 0,5% ao mês + TR (cerca de 9% ao ano). Um CDB de 100% do CDI rende 14,65% ao ano bruto. Mesmo com IR de 22,5% (menos de 180 dias), o CDB rende mais que a poupança. A poupança só é vantajosa para prazos muito curtos (menos de 30 dias) ou para quem não quer pensar em investimentos."
 """
         model = genai.GenerativeModel(
             model_name="models/gemini-3.1-flash-lite-preview",
